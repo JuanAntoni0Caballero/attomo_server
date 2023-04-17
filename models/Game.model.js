@@ -1,5 +1,3 @@
-const User = require("./User.model")
-
 const { Schema, model } = require("mongoose")
 
 const gameSchema = new Schema(
@@ -23,11 +21,11 @@ const gameSchema = new Schema(
             type: String,
             default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuqjfzhEAvw2nYYQfOg0mbV5221_yuKzdbkA&usqp=CAU'
         },
-        likes: [
+        likesBy: [
             {
                 user: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'User'
+                    ref: 'user',
+                    type: Schema.Types.ObjectId
                 }
             }
         ]

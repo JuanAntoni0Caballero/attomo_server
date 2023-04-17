@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 
+
 const userSchema = new Schema(
   {
     username: {
@@ -24,6 +25,14 @@ const userSchema = new Schema(
       enum: ['ADMIN', 'USER'],
       default: 'USER'
     },
+    likes: [
+      {
+        game: {
+          ref: "game",
+          type: Schema.Types.ObjectId
+        }
+      }
+    ]
   },
   {
     timestamps: true
