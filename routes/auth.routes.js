@@ -1,9 +1,9 @@
-const router = require("express").Router();
-const bcrypt = require("bcryptjs");
-const User = require("../models/User.model");
-const saltRounds = 10;
-
-
+const router = require("express").Router()
+const bcrypt = require("bcryptjs")
+const User = require("../models/User.model")
+const saltRounds = 10
+const jwt = require("jsonwebtoken")
+const { verifyToken } = require('../middlewares/VerifyToken')
 
 router.post('/signup', (req, res, next) => {
 
@@ -20,19 +20,19 @@ router.post('/signup', (req, res, next) => {
                 res.status(400).json({ errorMessages: ["El usuario ya existe."] })
                 return
             }
-            const salt = bcrypt.genSaltSync(saltRounds);
-            const hasedPassword = bcrypt.hashSync(password, salt);
+            const salt = bcrypt.genSaltSync(saltRounds)
+            const hasedPassword = bcrypt.hashSync(password, salt)
 
             return User.create({ username, email, password: hasedPassword })
         })
-        .then((createdUser) => res.sendStatus(201))
-        .catch(err => next(err));
+        .then(() => res.sendStatus(201))
+        .catch(err => next(err))
 })
 
 
 router.post('/login', (req, res, next) => {
 
-    const { email, password } = req.body;
+    const { email, password } = req.body
 
 
     if (email === '' || password === '') {
@@ -48,16 +48,30 @@ router.post('/login', (req, res, next) => {
                 return
             }
 
-            if (user.validatePassword(password)) {
-                res.status(200).json({ message: 'Login exitoso.' })
-            } else {
-                res.status(401).json({ errorMessages: ['Contraseña incorrecta.'] })
+            if (bcrypt.compareSync(password, user.password)) {
+
+                const { _id, email, username, role } = user
+                const payload = { _id, email, username, role }
+
+                const authToken = jwt.sign(
+                    payload,
+                    process.env.TOKEN_SECRET,
+                    { algorithm: 'HS256', expiresIn: "6h" }
+                )
+
+                res.status(200).json({ authToken })
             }
+            else {
+                res.status(401).json({ message: "Datos de acceso incorrectos." })
+            }
+
         })
-        .catch(err => next(err));
+        .catch(err => next(err))
 })
 
-
+router.get('/verify', verifyToken, (req, res, next) => {
+    res.json(req.payload)
+})
 
 
 module.exports = router
