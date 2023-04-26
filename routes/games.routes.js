@@ -56,16 +56,6 @@ router.delete('/deleteGame/:game_id', (req, res, next) => {
     .catch(err => next(err))
 })
 
-// router.put('/diLike/:game_id/:user_id', (req, res, next) => {
-
-//   const { game_id, user_id } = req.params
-
-//   Game
-//     .findByIdAndUpdate(game_id, { $inc: { likes: -1 }, $pull: { likedBy: user_id } })
-//     .then(response => res.json(response))
-//     .catch(err => next(err))
-// })
-
 
 router.post('/likeGame/:game_id/:user_id', async (req, res, next) => {
 
@@ -76,14 +66,22 @@ router.post('/likeGame/:game_id/:user_id', async (req, res, next) => {
     const user = await User.findById(user_id);
     const game = await Game.findById(game_id);
 
-    console.log('EL ID DEL GAME ==> ', game_id)
-    console.log('EL ID DEL USER ==> ', user_id)
 
     if (!user || !game) {
       return res.status(400).json({ message: 'El usuario o el juego no existen' })
 
     }
 
+    const likedGameIndex = game.likesBy.findIndex(like => like.user.toString() === user_id)
+
+    if (likedGameIndex !== -1) {
+      user.likes.splice(likedGameIndex, 1)
+      game.likesBy.pull({ user: user_id })
+      await user.save()
+      await game.save()
+
+      return res.status(200).json({ message: 'Like eliminado' })
+    }
 
     if (user.likes.length >= 5) {
       return res.status(400).json({ message: 'Ya has alganzado el máximo de likes' })
@@ -107,6 +105,7 @@ router.post('/likeGame/:game_id/:user_id', async (req, res, next) => {
     next(error)
   }
 })
+
 
 
 
