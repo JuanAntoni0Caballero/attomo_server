@@ -57,6 +57,30 @@ router.delete('/deleteGame/:game_id', (req, res, next) => {
     .then(response => res.json(response))
     .catch(err => next(err))
 })
+87
+
+router.put('/likeGame/:game_id/:user_id', (req, res, next) => {
+
+  const { game_id, user_id } = req.params
+
+  Game
+    .findByIdAndUpdate(game_id, { $inc: { likes: 1 }, $addToSet: { likedBy: user_id } })
+    .then(response => res.json(response))
+    .catch(err => next(err))
+})
+
+
+router.put('/diLike/:game_id/:user_id', (req, res, next) => {
+
+  const { game_id, user_id } = req.params
+
+  Game
+    .findByIdAndUpdate(game_id, { $inc: { likes: -1 }, $pull: { likedBy: user_id } })
+    .then(response => res.json(response))
+    .catch(err => next(err))
+})
+
+
 
 
 module.exports = router;

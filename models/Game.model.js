@@ -1,3 +1,5 @@
+const User = require("./User.model")
+
 const { Schema, model } = require("mongoose")
 
 const gameSchema = new Schema(
@@ -15,16 +17,20 @@ const gameSchema = new Schema(
         description: {
             type: String,
             required: [true, 'La descripcion es obligatoria.'],
-            maxlength: [140, 'La descripcion no puede tener más de 100 caracteres']
+            maxlength: [100, 'La descripcion no puede tener más de 100 caracteres']
         },
         image: {
             type: String,
-            default: 'https://res.cloudinary.com/dulqf7f1b/image/upload/v1678120897/BuscoAmigos/playa.jpg'
+            default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuqjfzhEAvw2nYYQfOg0mbV5221_yuKzdbkA&usqp=CAU'
         },
-        stars: {
-            type: String,
-            enum: ['1', '2', '3', '4', '5'],
-        },
+        likes: [
+            {
+                user: {
+                    type: Schema.Types.ObjectId,
+                    ref: 'User'
+                }
+            }
+        ]
     },
     {
         timestamps: true
