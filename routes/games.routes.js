@@ -4,11 +4,11 @@ const Game = require("../models/Game.model");
 
 router.get('/getAllGames', (req, res, next) => {
 
-  const { name, category, image, stars } = req.query
+  // const { name, category, image, stars } = req.query
 
   Game
     .find()
-    .sort({ name: 1 })
+    .sort()
     .then(response => res.json(response))
     .catch(err => next(err))
 
@@ -27,11 +27,10 @@ router.get('/getOneGame/:game_id', (req, res, next) => {
 
 router.post('/createGame', (req, res, next) => {
 
-  const { name, category, image, stars } = req.body
+  const { name, category, description, image, stars } = req.body
 
   Game
-    .create({ name, category, image, stars })
-    .then(response => res.json(response))
+    .create({ name, category, description, image, stars })
     .then(response => res.json(response))
     .catch(err => next(err))
 })

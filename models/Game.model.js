@@ -12,6 +12,11 @@ const gameSchema = new Schema(
             required: [true, 'La categoria es obligatoria.'],
             maxlength: [15, 'La categoriano puede tener más de 15 caracteres']
         },
+        description: {
+            type: String,
+            required: [true, 'La descripcion es obligatoria.'],
+            maxlength: [140, 'La descripcion no puede tener más de 100 caracteres']
+        },
         image: {
             type: String,
             default: 'https://res.cloudinary.com/dulqf7f1b/image/upload/v1678120897/BuscoAmigos/playa.jpg'
