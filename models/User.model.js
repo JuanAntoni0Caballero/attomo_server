@@ -30,6 +30,12 @@ const userSchema = new Schema(
   }
 );
 
+
+userSchema.methods.validatePassword = function (userPassword) {
+  return this.password === userPassword;
+}
+
+
 const User = model("User", userSchema);
 
 module.exports = User;

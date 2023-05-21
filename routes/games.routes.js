@@ -39,10 +39,10 @@ router.post('/createGame', (req, res, next) => {
 router.put('/updateGame/:game_id', (req, res, next) => {
 
   const { game_id } = req.params
-  const { name, category, image } = req.body
+  const { name, category, description, image } = req.body
 
   Game
-    .findByIdAndUpdate(game_id, { name, category, image })
+    .findByIdAndUpdate(game_id, { name, category, description, image })
     .then(response => res.json(response))
     .catch(err => next(err))
 })
