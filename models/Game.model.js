@@ -5,18 +5,18 @@ const gameSchema = new Schema(
         name: {
             type: String,
             required: [true, 'El nombre del juego es obligatorio.'],
-            maxlength: [15, 'El título no puede tener más de 15 caracteres'],
+            maxlength: [100, 'El título no puede tener más de 15 caracteres'],
             unique: true
         },
         category: {
             type: String,
             required: [true, 'La categoria es obligatoria.'],
-            maxlength: [15, 'La categoria no puede tener más de 15 caracteres']
+            maxlength: [30, 'La categoria no puede tener más de 30 caracteres']
         },
         description: {
             type: String,
             required: [true, 'La descripcion es obligatoria.'],
-            maxlength: [100, 'La descripcion no puede tener más de 100 caracteres']
+            maxlength: [300, 'La descripcion no puede tener más de 100 caracteres']
         },
         image: {
             type: String,
