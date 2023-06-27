@@ -8,7 +8,7 @@ router.get('/getAllGames', (req, res, next) => {
 
   Game
     .find()
-    .sort(sort)
+    .sort({ name: 1 })
     .then(response => res.json(response))
     .catch(err => next(err))
 

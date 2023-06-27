@@ -2,12 +2,15 @@ const router = require("express").Router();
 const User = require("../models/User.model");
 
 
-router.get("/", (req, res, next) => {
-    res.json("Ruta de usuario");
-});
+// router.get("/", (req, res, next) => {
+//     res.json("Ruta de usuario");
+// });
 
 
 router.post('/signup', (req, res, next) => {
+
+    const { username, email, password } = req.body
+
     User
         .create({ username, email, password })
         .then(() => res.sendStatus(201))
