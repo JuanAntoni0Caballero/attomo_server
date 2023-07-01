@@ -5,7 +5,6 @@ const User = require("../models/User.model");
 
 router.get('/getAllGames', (req, res, next) => {
 
-  // const { name, category, image, stars } = req.query
   Game
     .find()
     .sort()
@@ -99,7 +98,11 @@ router.post('/likeGame/:game_id/:user_id', async (req, res, next) => {
     await user.save()
     await game.save()
 
-    res.status(200).json({ message: 'Like agregado' })
+    const updateUser = await User.findById(user_id).populate('likes')
+
+    res.status(200).json({ message: 'Like agregado', user: updateUser })
+
+
 
   } catch (error) {
     next(error)

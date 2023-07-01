@@ -50,7 +50,7 @@ router.post('/login', (req, res, next) => {
 
             if (bcrypt.compareSync(password, user.password)) {
 
-                const { _id, email, username, role } = user
+                const { _id, email, username, role, likes } = user
                 const payload = { _id, email, username, role, likes }
 
                 const authToken = jwt.sign(
@@ -58,11 +58,10 @@ router.post('/login', (req, res, next) => {
                     process.env.TOKEN_SECRET,
                     { algorithm: 'HS256', expiresIn: "6h" }
                 )
-
                 res.status(200).json({ authToken })
             }
             else {
-                res.status(401).json({ message: "Datos de acceso incorrectos." })
+                res.status(401).json({ errorMessage: "Datos de acceso incorrectos." })
             }
 
         })
