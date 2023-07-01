@@ -6,11 +6,36 @@ const User = require("../models/User.model");
 router.get('/getAllGames', (req, res, next) => {
 
   Game
-    .find()
-    .sort()
+    .aggregate([
+      {
+        $addFields: {
+          likesCount: { $size: "$likesBy" }
+        }
+      },
+      {
+        $sort: { likesCount: -1 }
+      }
+    ])
     .then(response => res.json(response))
     .catch(err => next(err))
 })
+
+
+router.get('/searchGames', (req, res, next) => {
+  const { searchTerm } = req.query;
+  const regex = new RegExp(searchTerm, 'i');
+
+  Game.find({
+    $or: [
+      { name: { $regex: searchTerm, $options: 'i' } },
+      { category: { $regex: searchTerm, $options: 'i' } },
+      { description: { $regex: searchTerm, $options: 'i' } }
+    ]
+  })
+    .then(response => res.json(response))
+    .catch(err => next(err));
+});
+
 
 router.get('/getOneGame/:game_id', (req, res, next) => {
 
