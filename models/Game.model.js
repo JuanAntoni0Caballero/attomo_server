@@ -20,7 +20,7 @@ const gameSchema = new Schema(
         },
         image: {
             type: String,
-            default: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuqjfzhEAvw2nYYQfOg0mbV5221_yuKzdbkA&usqp=CAU'
+            default: 'https://res.cloudinary.com/dhtj3nd92/image/upload/v1688638386/GameScoreHub/images_leorfc.jpg'
         },
         likesBy: [
             {

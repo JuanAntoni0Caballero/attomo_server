@@ -10,6 +10,9 @@ router.use("/auth", authRoutes)
 const gamesRoutes = require("./games.routes")
 router.use("/games", gamesRoutes)
 
+const uploadRoutes = require("./upload.routes")
+router.use("/upload", uploadRoutes)
+
 
 
 
