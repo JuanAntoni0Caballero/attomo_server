@@ -61,7 +61,7 @@ router.post('/login', (req, res, next) => {
                 res.status(200).json({ authToken })
             }
             else {
-                res.status(401).json({ errorMessage: "Datos de acceso incorrectos." })
+                res.status(401).json({ errorMessages: ["Datos de acceso incorrectos."] })
             }
 
         })

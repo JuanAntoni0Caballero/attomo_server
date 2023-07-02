@@ -68,9 +68,13 @@ router.put('/updateGame/:game_id', (req, res, next) => {
   const { name, category, description, image } = req.body
 
   Game
-    .findByIdAndUpdate(game_id, { name, category, description, image })
+    .findOneAndUpdate(
+      { _id: game_id },
+      { name, category, description, image },
+      { new: true, runValidators: true }
+    )
     .then(response => res.json(response))
-    .catch(err => next(err))
+    .catch(err => next(err));
 })
 
 
