@@ -25,14 +25,18 @@ router.get('/searchGames', (req, res, next) => {
   const { searchTerm } = req.query;
   const regex = new RegExp(searchTerm, 'i');
 
-  Game.find({
-    $or: [
-      { name: { $regex: searchTerm, $options: 'i' } },
-      { category: { $regex: searchTerm, $options: 'i' } },
-      { description: { $regex: searchTerm, $options: 'i' } }
-    ]
-  })
-    .then(response => res.json(response))
+  Game
+    .find({
+      $or: [
+        { name: { $regex: searchTerm, $options: 'i' } },
+        { category: { $regex: searchTerm, $options: 'i' } },
+        { description: { $regex: searchTerm, $options: 'i' } }
+      ]
+    })
+    .then(response => {
+      response.sort((a, b) => b.likesBy.length - a.likesBy.length);
+      res.json(response);
+    })
     .catch(err => next(err));
 });
 
