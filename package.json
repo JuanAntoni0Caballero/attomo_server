@@ -21,6 +21,7 @@
     "multer-storage-cloudinary": "^4.0.0"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.16",
     "nodemon": "^2.0.22"
   }
 }
